@@ -1,0 +1,21 @@
+<template>
+  <lightning-card>
+    <h3 slot="title">Polymorphic Input Field</h3>
+
+    <div class="slds-p-horizontal_small">
+      <c-polymorphic-field
+        label="Test Label"
+        placeholder="Test Placeholder"
+        combobox-map={comboboxMap}
+        selected-values={selectedValues}
+        has-search-icon
+        required
+        required-message="You have to enter a value!"
+        with-help
+        help-message="This is a dummy help message for preview only."
+        oninputchange={handleInputChange}
+      >
+      </c-polymorphic-field>
+    </div>
+  </lightning-card>
+</template>

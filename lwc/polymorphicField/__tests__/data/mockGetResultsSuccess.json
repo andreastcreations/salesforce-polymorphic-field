@@ -1,0 +1,21 @@
+[
+  [
+    {
+      "Id": "returnUserId123456",
+      "Name": "Testing Testingson",
+      "Email": "testing.testingson@dummymail.com"
+    },
+    {
+      "Id": "returnUserId789123",
+      "Name": "Testing Fakeuserson",
+      "Email": "testing.fakeuserson@dummymail.com"
+    }
+  ],
+  [
+    {
+      "Id": "returnGroupId12345",
+      "Name": "Testing Group",
+      "Type": "Regular"
+    }
+  ]
+]

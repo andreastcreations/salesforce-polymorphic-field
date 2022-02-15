@@ -1,0 +1,375 @@
+<!-- sldsValidatorIgnore -->
+<template>
+  <div class={topLevelClasses}>
+    <!-- Polymorphic field label -->
+    <label
+      id="pf-label-id"
+      class="slds-form-element__label"
+      for="pf-text-input-id"
+    >
+      <template if:true={required}>
+        <abbr id="pf-required-star-id" class="slds-required">* </abbr>
+      </template>
+      {label}
+    </label>
+
+    <!-- Help icon -->
+    <template if:true={withHelp}>
+      <div class="slds-form-element__icon">
+        <!-- Clickable button -->
+        <button
+          id="pf-help-button-id"
+          class="slds-button slds-button_icon"
+          aria-describedby="help"
+          onclick={handleHelpClick}
+          onblur={handleHelpBlur}
+        >
+          <svg class="slds-button__icon" aria-hidden="true">
+            <use
+              xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#info"
+            ></use>
+          </svg>
+          <span class="slds-assistive-text">Help</span>
+        </button>
+        <!-- Help message -->
+        <template if:true={helpClicked}>
+          <div
+            id="pf-help-bubble-id"
+            class="pf-help_bubble_div slds-popover slds-popover_tooltip slds-nubbin_bottom-left"
+            role="tooltip"
+          >
+            <div class="slds-popover__body">{helpMessage}</div>
+          </div>
+        </template>
+      </div>
+    </template>
+
+    <div class="slds-form-element__control">
+      <div class="slds-combobox-group">
+        <!-- Combobox left half -->
+        <div class="slds-combobox_object-switcher slds-combobox-addon_start">
+          <div class="slds-form-element">
+            <div class="slds-form-element__control">
+              <div class="slds-combobox_container">
+                <div
+                  class={comboboxClasses}
+                  aria-controls="pf-combobox-results-id"
+                >
+                  <div
+                    class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                    role="none"
+                  >
+                    <!-- Button -->
+                    <button
+                      id="pf-objectswitcher-combobox-id"
+                      aria-controls="pf-objectswitcher-listbox-id"
+                      type="button"
+                      class="slds-input_faux slds-combobox__input-value slds-theme_shade slds-align_absolute-center"
+                      onclick={handleComboboxClick}
+                    >
+                      <!-- Object Icon -->
+                      <div
+                        class="pf-icon_fix_div"
+                        if:true={selectedObject.option.icon}
+                      >
+                        <span
+                          class="slds-media__figure slds-listbox__option-icon"
+                        >
+                          <lightning-icon
+                            icon-name={selectedObject.option.icon}
+                            alternative-text={selectedObject.option.label}
+                            size="small"
+                          >
+                          </lightning-icon>
+                        </span>
+                      </div>
+                      <!-- Object Name -->
+                      <span class="slds-truncate">
+                        <strong>{selectedObject.option.label}</strong>
+                      </span>
+                    </button>
+                    <!-- Arrow icon on the right -->
+                    <span
+                      class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                    >
+                      <svg
+                        class="slds-icon slds-icon_x-small slds-icon-text-default"
+                        aria-hidden="true"
+                      >
+                        <use
+                          xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#down"
+                        ></use>
+                      </svg>
+                    </span>
+                  </div>
+
+                  <!-- Combobox list -->
+                  <template if:true={comboboxMap}>
+                    <div
+                      id="pf-objectswitcher-listbox-id"
+                      class="pf-objectswitcher_listbox_div slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid slds-dropdown_left"
+                      role="listbox"
+                      onclick={ignoreClick}
+                    >
+                      <ul
+                        class="slds-listbox slds-listbox_vertical"
+                        role="group"
+                      >
+                        <!-- Combobox list item loop -->
+                        <template
+                          for:each={comboboxMap}
+                          for:item="comboboxItem"
+                        >
+                          <li
+                            key={comboboxItem.option.id}
+                            data-id={comboboxItem.option.id}
+                            class="slds-listbox__item"
+                            role="presentation"
+                            onclick={handleComboboxObjectChange}
+                          >
+                            <div
+                              class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                              role="option"
+                            >
+                              <!-- Option icon -->
+                              <div
+                                class="pf-icon_fix_div"
+                                if:true={comboboxItem.option.icon}
+                              >
+                                <span
+                                  class="slds-media__figure slds-listbox__option-icon"
+                                >
+                                  <lightning-icon
+                                    icon-name={comboboxItem.option.icon}
+                                    alternative-text={comboboxItem.option.label}
+                                    size="small"
+                                  >
+                                  </lightning-icon>
+                                </span>
+                              </div>
+                              <!-- Option value -->
+                              <span
+                                class="pf-option_value_span slds-media__body"
+                              >
+                                <span class="slds-truncate">
+                                  <strong>{comboboxItem.option.label}</strong>
+                                </span>
+                              </span>
+                            </div>
+                          </li>
+                        </template>
+                      </ul>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combobox right half -->
+        <div class="slds-combobox_container slds-combobox-addon_end">
+          <div class={resultsClasses} id="pf-combobox-results-id">
+            <div
+              class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+              role="none"
+            >
+              <!-- Input field -->
+              <input
+                id="pf-text-input-id"
+                type="text"
+                role="combobox"
+                class="slds-input slds-combobox__input"
+                placeholder={placeholder}
+                value={value}
+                required={required}
+                aria-autocomplete="list"
+                aria-controls="pf-search-results-listbox-id"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-describedby="pf-error-message-id"
+                aria-invalid="true"
+                autocomplete="off"
+                oninput={handleInput}
+                onfocus={handleInputFocus}
+                onblur={handleInputBlur}
+              />
+
+              <!-- Input results -->
+              <div
+                id="pf-search-results-listbox-id"
+                if:false={isLoading}
+                class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                role="listbox"
+                onclick={ignoreClick}
+              >
+                <ul
+                  class="slds-listbox slds-listbox_vertical"
+                  role="presentation"
+                >
+                  <!-- Results list (items loop) -->
+                  <template
+                    if:true={hasResults}
+                    for:each={results}
+                    for:item="result"
+                  >
+                    <li
+                      key={result.id}
+                      data-id={result.id}
+                      role="presentation"
+                      class="slds-listbox__item"
+                      onclick={handleResultsSelectedItem}
+                    >
+                      <div
+                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                        role="option"
+                      >
+                        <!-- Result Icon -->
+                        <div if:true={selectedObject.option.icon}>
+                          <span
+                            class="slds-media__figure slds-listbox__option-icon"
+                          >
+                            <lightning-icon
+                              icon-name={selectedObject.option.icon}
+                              size="small"
+                            >
+                            </lightning-icon>
+                          </span>
+                        </div>
+                        <!-- Result Values -->
+                        <span class="slds-media__body">
+                          <!-- Actual value (top) -->
+                          <span
+                            class="slds-truncate slds-listbox__option-text slds-listbox__option-text_entity"
+                          >
+                            {result.listValue.start}<strong>{result.listValue.bold}</strong>{result.listValue.end}
+                          </span>
+                          <!-- Additional info (bottom) -->
+                          <span
+                            if:true={result.meta}
+                            class="pf-search_results_info_span slds-listbox__option-meta slds-listbox__option-meta_entity"
+                          >
+                            {result.meta}
+                          </span>
+                        </span>
+                      </div>
+                    </li>
+                  </template>
+
+                  <!-- No results -->
+                  <template if:false={hasResults}>
+                    <li class="slds-listbox__item slds-align_absolute-center">
+                      <div
+                        class="pf-search_results_error_div slds-media slds-text-color_error"
+                      >
+                        <span class="slds-media__body">
+                          <span>{resultsErrorMessage}</span>
+                        </span>
+                      </div>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+
+              <!-- Loading search -->
+              <template if:true={isLoading}>
+                <div
+                  id="pf-loading-spinner-id"
+                  class="slds-input__icon-group slds-input__icon-group_right"
+                >
+                  <div
+                    role="status"
+                    class="slds-spinner slds-spinner_brand slds-spinner_x-small slds-input__spinner"
+                  >
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                  </div>
+                </div>
+              </template>
+
+              <!-- Search icon on the right -->
+              <template if:true={hasSearchIcon}>
+                <svg
+                  id="pf-search-icon-id"
+                  class="slds-icon slds-icon_x-small slds-input__icon slds-input__icon_right slds-icon-text-default"
+                  aria-hidden="true"
+                >
+                  <use
+                    xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#search"
+                  ></use>
+                </svg>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected options -->
+    <div if:true={hasSelectedValues} class="pf-selected_values_div">
+      <ul
+        id="pf-selected-values-list-id"
+        class="slds-listbox slds-listbox_horizontal"
+        role="listbox"
+        aria-label="Selected Options"
+        aria-orientation="horizontal"
+        aria-describedby="listbox-pill-selected-items"
+      >
+        <template for:each={selectedValuesInternal} for:item="selectedValue">
+          <li
+            key={selectedValue.id}
+            class="slds-listbox-item"
+            role="presentation"
+          >
+            <span class="slds-pill" role="option" aria-selected="true">
+              <!-- Pill icon -->
+              <div if:true={selectedValue.icon} class="pf-icon_fix_div">
+                <lightning-icon
+                  class="pf-icon_fix_lightning"
+                  icon-name={selectedValue.icon}
+                  alternative-text={selectedValue.value}
+                  size="x-small"
+                >
+                </lightning-icon>
+              </div>
+              <!-- Pill label -->
+              <span
+                class="slds-pill__label"
+                title="Full pill label verbiage mirrored here"
+              >
+                {selectedValue.value}
+              </span>
+              <!-- Remove pill -->
+              <span
+                data-id={selectedValue.id}
+                class="pf-remove_pill_span slds-icon_container slds-pill__remove"
+                onclick={removeSelectedItem}
+              >
+                <svg
+                  class="slds-icon slds-icon_x-small slds-icon-text-default"
+                  aria-hidden="true"
+                >
+                  <use
+                    xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"
+                  ></use>
+                </svg>
+              </span>
+            </span>
+          </li>
+        </template>
+      </ul>
+    </div>
+
+    <!-- Check when field is required -->
+    <template if:true={required}>
+      <div if:false={hasSelectedValues}>
+        <div if:true={hasError}>
+          <div class="slds-form-element__help" id="pf-error-message-id">
+            {requiredMessage}
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>

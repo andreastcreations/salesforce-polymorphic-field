@@ -1,0 +1,40 @@
+.pf-help_bubble_div {
+  position: absolute;
+  top: -45px;
+  left: -15px;
+  width: 170px;
+}
+
+.pf-icon_fix_div {
+  margin-top: -0.1rem;
+}
+
+.pf-icon_fix_lightning {
+  margin-right: 0.25rem;
+}
+
+.pf-objectswitcher_listbox_div {
+  align-items: center;
+}
+
+.pf-option_value_span {
+  margin-left: 0.5rem;
+}
+
+.pf-search_results_info_span {
+  font-size: 90%;
+}
+
+.pf-search_results_error_div {
+  margin: 0.55rem 0.55rem 0.55rem 0.55rem;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.pf-selected_values_div {
+  margin-top: 0.5rem;
+}
+
+.pf-remove_pill_span {
+  cursor: pointer;
+}

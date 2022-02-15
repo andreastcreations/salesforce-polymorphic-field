@@ -1,0 +1,9 @@
+{
+  "body": {
+    "message": {
+      "details": "Some error message from Apex.",
+      "exceptionType": "DummyException",
+      "stackTrace": "Class.PolymorphicFieldHandler.getResults: line 999, column 1"
+    }
+  }
+}
