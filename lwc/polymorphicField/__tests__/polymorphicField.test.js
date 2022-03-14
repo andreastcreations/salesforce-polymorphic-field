@@ -6,16 +6,6 @@ const MOCK_COMBOBOX_MAP = require("./data/mockComboboxMap.json");
 const MOCK_GET_RESULTS_SUCCESS = require("./data/mockGetResultsSuccess.json");
 const MOCK_GET_RESULTS_ERROR = require("./data/mockGetResultsError.json");
 
-jest.mock(
-  "@salesforce/apex/MyController.getResults",
-  () => {
-    return {
-      default: jest.fn()
-    };
-  },
-  { virtual: true }
-);
-
 describe("UI Elements", () => {
   afterEach(() => {
     while (document.body.firstChild) {
