@@ -447,7 +447,7 @@ describe("Input Logic", () => {
     const element = createElement("c-polymorphic-field", {
       is: PolymorphicField
     });
-    element.comboboxMap = require("./data/mockComboboxMap.json");
+    element.comboboxMap = MOCK_COMBOBOX_MAP;
     document.body.appendChild(element);
 
     getResults
@@ -555,7 +555,7 @@ describe("Input Logic", () => {
     const element = createElement("c-polymorphic-field", {
       is: PolymorphicField
     });
-    element.comboboxMap = require("./data/mockComboboxMap.json");
+    element.comboboxMap = MOCK_COMBOBOX_MAP;
     document.body.appendChild(element);
 
     getResults.mockRejectedValue(MOCK_GET_RESULTS_ERROR);
